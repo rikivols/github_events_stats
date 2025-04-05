@@ -2,20 +2,22 @@
 import re
 import logging
 import traceback
-from venv import create
 
 from app.config import Config
-from app.github_client import GithubClient
-from app.templates import GithubEvent
+from app.scraping.github_client import GithubClient
+from app.helpers import calculate_days_ago
+from app.database.github_event import GithubEvent
 
 
 class GithubScraper:
 
     def __init__(self, github_client: GithubClient, config: Config):
         self.github_client = github_client
+        self.config = config
         self.repositories = config.github_repositories
         self.authentication_tokens = config.github_authentication_tokens
         self.max_repositories = config.github_max_repositories
+        self.max_days_ago = config.aggregator_rolling_days
 
     @staticmethod
     def _validate_repository(repository: str):
@@ -52,10 +54,10 @@ class GithubScraper:
                     owner, repository_name, authentication_token
                 )
 
-                if not github_events_response.ok:
-                    continue
+                for event in github_events_response:
+                    if calculate_days_ago(event["created_at"]) > self.config.aggregator_rolling_days:
+                        continue
 
-                for event in github_events_response.json():
                     github_event = GithubEvent(
                         id=event["id"],
                         type=event["type"],

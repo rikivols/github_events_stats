@@ -1,4 +1,7 @@
 
+import logging
+import traceback
+
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
@@ -27,16 +30,23 @@ class GithubClient:
         self.session.mount("https://", HTTPAdapter(max_retries=retries))
 
     @track_response
-    def get_github_events(self, owner: str, repository_name: str, authorization_token: str) -> requests.Response:
-
-        self.session.cookies.clear()
-        headers = {
-            "Accept": "application/vnd.github+json",
-            "Authorization": f"Bearer {authorization_token}",
-            "X-GitHub-Api-Version": "2022-11-28"
-        }
+    def _get_github_events(self, url: str, authorization_token: str) -> requests.Response:
         return self.session.get(
-            f"https://api.github.com/repos/{owner}/{repository_name}/events",
-            headers=headers,
+            url,
+            headers={
+                "Accept": "application/vnd.github+json",
+                "Authorization": f"Bearer {authorization_token}",
+                "X-GitHub-Api-Version": "2022-11-28"
+            },
             timeout=self.config.github_timeout
         )
+
+    def get_github_events(self, owner: str, repository_name: str, authorization_token: str) -> list[dict]:
+
+        self.session.cookies.clear()
+        events_response = self._get_github_events(
+            f"https://api.github.com/repos/{owner}/{repository_name}/events",
+            authorization_token
+        )
+
+        return events_response.json() if events_response.ok else []

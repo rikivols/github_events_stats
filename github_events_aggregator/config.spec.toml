@@ -32,3 +32,16 @@
   [aggregator.rolling_events]
     required = false
     default = 500
+
+[database]
+  [database.host]
+    required = false
+    default = "localhost"
+  [database.user]
+    required = true
+  [database.password]
+    required = true
+  [database.port]
+    required = true
+  [database.name]
+    required = true

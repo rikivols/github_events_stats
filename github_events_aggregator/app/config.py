@@ -23,6 +23,13 @@ class Config:
         self.aggregator_rolling_days = aggregator.get("rolling_days", self.spec['aggregator']['rolling_days']['default'])
         self.aggregator_rolling_events = aggregator.get("rolling_events", self.spec['aggregator']['rolling_events']['default'])
 
+        database = self.config.get("database")
+        self.database_host = database.get("host")
+        self.database_user = database.get("user")
+        self.database_password = database.get("password")
+        self.database_port = database.get("port")
+        self.database_name = database.get("name")
+
     @staticmethod
     def _parse_config(path: str) -> dict:
         with open(path, "r") as f:
