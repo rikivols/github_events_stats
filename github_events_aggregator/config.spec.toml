@@ -9,6 +9,9 @@
   [github.refresh_rate_s]
     required = false
     default = 3600
+  [github.timeout]
+    required = false
+    default = 60
   [github.max_retry]
     required = false
     default = 3

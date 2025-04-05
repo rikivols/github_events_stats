@@ -12,8 +12,8 @@ class Config:
         self.github_repositories = github.get("repositories")
         self.github_authentication_tokens = github.get("authentication_tokens")
         self.github_max_repositories = github.get("max_repositories")
-
         self.github_refresh_rate = github.get("refresh_rate_s", self.spec['github']['refresh_rate_s']['default'])
+        self.github_timeout = github.get("timeout", self.spec['github']['timeout']['default'])
         self.github_max_retry = github.get("auto_offset_reset", self.spec['github']['max_retry']['default'])
         self.github_retry_attempts = github.get("retry_attempts", self.spec['github']['retry_attempts']['default'])
         self.github_backoff_factor = github.get("backoff_factor", self.spec['github']['backoff_factor']['default'])
@@ -51,15 +51,6 @@ class Config:
                 + ", ".join(missing_required_params)
             )
 
-    def _validate_repositories(self):
-        if type(self.github_repositories) != list:
-            raise TypeError("Github repositories must be a list")
-        if type(self.github_authentication_tokens) != list:
-            raise TypeError("Github authentication_tokens must be a list")
-        if len(self.github_repositories) == 0:
-            raise ValueError("Github repositories must contain at least 1 repository")
-        if len(self.github_authentication_tokens) == 0:
-            raise ValueError("Github authentication_tokens must contain at least 1 authentication token")
 
 if __name__ == "__main__":
     conf = Config("../../config.toml", "../../config.spec.toml")
