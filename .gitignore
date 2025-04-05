@@ -199,3 +199,5 @@ bin
 data
 lib
 pyvenv.cfg
+.python-version
+.env

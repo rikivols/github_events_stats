@@ -15,9 +15,6 @@
   [github.max_retry]
     required = false
     default = 3
-  [github.retry_attempts]
-    required = false
-    default = 2
   [github.backoff_factor]
     required = false
     default = 1
@@ -36,12 +33,12 @@
 [database]
   [database.host]
     required = false
-    default = "localhost"
   [database.user]
-    required = true
+    required = false
   [database.password]
-    required = true
+    required = false
   [database.port]
-    required = true
+    required = false
+    default = 5432
   [database.name]
-    required = true
+    required = false

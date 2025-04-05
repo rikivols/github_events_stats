@@ -1,18 +1,14 @@
 
-import logging
-import traceback
-
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-from app.config import Config
+from app import config
 from app.decorators import track_response
 
 
 class GithubClient:
-    def __init__(self, config: Config):
-        self.config = config
+    def __init__(self):
         self.session = requests.Session()
         self._mount_session()
 
@@ -23,9 +19,9 @@ class GithubClient:
         """
 
         retries = Retry(
-            total=self.config.github_max_retry,
-            backoff_factor=self.config.github_backoff_factor,
-            status_forcelist=self.config.github_status_forcelist,
+            total=config.github_max_retry,
+            backoff_factor=config.github_backoff_factor,
+            status_forcelist=config.github_status_forcelist,
         )
         self.session.mount("https://", HTTPAdapter(max_retries=retries))
 
@@ -38,7 +34,7 @@ class GithubClient:
                 "Authorization": f"Bearer {authorization_token}",
                 "X-GitHub-Api-Version": "2022-11-28"
             },
-            timeout=self.config.github_timeout
+            timeout=config.github_timeout
         )
 
     def get_github_events(self, owner: str, repository_name: str, authorization_token: str) -> list[dict]:
