@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "events-aggregator"
+version = "0.1.0"
+description = "Aggregates Github events for each configured repository."
+authors = ["Richard Volcko <rikvolcko@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+toml = "^0.10.2"
+requests = "^2.32.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,31 @@
+[github]
+  [github.repositories]
+    required = true
+  [github.authentication_tokens]
+    required = true
+  [github.max_repositories]
+    required = false
+    default = 5
+  [github.refresh_rate_s]
+    required = false
+    default = 3600
+  [github.max_retry]
+    required = false
+    default = 3
+  [github.retry_attempts]
+    required = false
+    default = 2
+  [github.backoff_factor]
+    required = false
+    default = 1
+  [github.status_forcelist]
+    required = false
+    default = [501, 502, 503, 504]
+
+[aggregator]
+  [aggregator.rolling_days]
+    required = false
+    default = 7
+  [aggregator.rolling_events]
+    required = false
+    default = 500
