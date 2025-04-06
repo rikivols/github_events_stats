@@ -1,19 +1,16 @@
 [tool.poetry]
-name = "github-events-scraper"
+name = "github-events-api"
 version = "0.1.0"
-description = "Scrapes Github events for each configured repository to be aggregated later."
+description = "Fetches Github events from database, aggregates and displays them."
 authors = ["Richard Volcko <rikvolcko@gmail.com>"]
 readme = "README.md"
 package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"
-toml = "^0.10.2"
-requests = "^2.32.3"
-pydantic = "^2.11.2"
+fastapi = "^0.115.12"
 sqlalchemy = "^2.0.40"
-psycopg2-binary = "^2.9.10"
-python-dotenv = "^1.1.0"
+toml = "^0.10.2"
 
 
 [build-system]

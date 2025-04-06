@@ -3,22 +3,26 @@ import time
 import logging
 import traceback
 
-from app import config
+from app.config import Config
 from app.database.github_event_wrapper import GithubEventWrapper
-from app.database.github_event import GithubEvent
-from app.helpers import time_response, get_postgre_url
+from shared_resources.github_event import GithubEvent
+from shared_resources.helpers import time_response, set_logger
+from shared_resources.database_utils import get_postgre_url
 from app.scraping.github_client import GithubClient
 from app.scraping.github_scraper import GithubScraper
 from sqlalchemy import create_engine
 
 
+config = Config()
+set_logger(config)
+
 db_engine = create_engine(get_postgre_url())
 GithubEvent.metadata.create_all(db_engine)
 
-github_event_wrapper = GithubEventWrapper(db_engine=db_engine)
+github_event_wrapper = GithubEventWrapper(config=config, db_engine=db_engine)
 
-github_client = GithubClient()
-github_scraper = GithubScraper(github_client=github_client)
+github_client = GithubClient(config=config)
+github_scraper = GithubScraper(config=config, github_client=github_client, github_event_wrapper=github_event_wrapper)
 
 
 if __name__ == "__main__":
@@ -33,11 +37,12 @@ if __name__ == "__main__":
             logging.info(f"Scraped {len(github_events)} events.")
             inserted_events = github_event_wrapper.insert_multiple_events(github_events=github_events)
             logging.info(f"Inserted {len(inserted_events)} new events.")
-
+        except KeyboardInterrupt:
+            break
         except Exception as e:
             logging.error(f"There was an error in the main loop, ERROR: {e}, traceback: {traceback.format_exc()}")
 
         loop_took = time_response(loop_start)
 
-        if loop_took < config.github_refresh_rate:
-            time.sleep(config.github_refresh_rate - loop_took + 0.01)
+        if loop_took < config.GITHUB_REFRESH_RATE:
+            time.sleep(config.GITHUB_REFRESH_RATE - loop_took + 0.01)
