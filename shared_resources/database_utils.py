@@ -8,7 +8,7 @@ from sqlalchemy.engine import Engine
 from sqlalchemy.orm import sessionmaker
 
 
-def get_postgre_url() -> str:
+def get_connection_string() -> str:
     db_user = os.getenv("DATABASE_USER")
     db_password = os.getenv("DATABASE_PASSWORD")
     db_host = os.getenv("DATABASE_HOST")

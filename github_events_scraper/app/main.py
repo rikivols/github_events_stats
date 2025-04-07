@@ -3,20 +3,21 @@ import time
 import logging
 import traceback
 
+from sqlalchemy import create_engine
+
 from app.config import Config
 from app.database.github_event_wrapper import GithubEventWrapper
 from shared_resources.github_event import GithubEvent
 from shared_resources.helpers import time_response, set_logger
-from shared_resources.database_utils import get_postgre_url
+from shared_resources.database_utils import get_connection_string
 from app.scraping.github_client import GithubClient
 from app.scraping.github_scraper import GithubScraper
-from sqlalchemy import create_engine
 
 
 config = Config()
 set_logger(config)
 
-db_engine = create_engine(get_postgre_url())
+db_engine = create_engine(get_connection_string())
 GithubEvent.metadata.create_all(db_engine)
 
 github_event_wrapper = GithubEventWrapper(config=config, db_engine=db_engine)

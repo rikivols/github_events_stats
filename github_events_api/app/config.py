@@ -15,18 +15,16 @@ class Config:
     GITHUB_REPOSITORIES: list = None
     GITHUB_AUTHENTICATION_TOKENS: list = None
     GITHUB_MAX_REPOSITORIES: int = 5
-    GITHUB_REFRESH_RATE: int = 3600
-    GITHUB_API_URL: str = "https://api.github.com"
-
-    # Request
-    REQUEST_TIMEOUT: int = 60
-    REQUEST_MAX_RETRY: int = 3
-    REQUEST_BACKOFF_FACTOR: int = 1
-    REQUEST_STATUS_FORCELIST: list = [501, 502, 503, 504]
 
     # Aggregator
     AGGREGATOR_ROLLING_DAYS: int = 7
     AGGREGATOR_ROLLING_EVENTS: int = 500
+    AGGREGATOR_BACKGROUND_REFRESH: int = 100
+    AGGREGATOR_STATS_PRECISION: int = 2
+
+    # Api
+    API_HOST: str = "0.0.0.0"
+    API_PORT: int = 8000
 
     # Logging
     LOGGING_LEVEL: str = "warning"

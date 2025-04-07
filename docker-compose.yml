@@ -22,5 +22,18 @@ services:
       - db
     restart: unless-stopped
 
+  api:
+    build:
+      context: .
+      dockerfile: github_events_api/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+      - ./github_events_api/.env
+    depends_on:
+      - db
+    restart: unless-stopped
+
 volumes:
   pgdata:

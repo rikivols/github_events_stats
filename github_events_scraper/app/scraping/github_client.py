@@ -8,6 +8,8 @@ from app.decorators import track_response
 
 
 class GithubClient:
+    API_URL = "https://api.github.com"
+
     def __init__(self, config: Config):
         self.config = config
         self.session = requests.Session()
@@ -47,7 +49,7 @@ class GithubClient:
 
         self.session.cookies.clear()
         events_response = self._get_github_events(
-            f"https://api.github.com/repos/{owner}/{repository_name}/events",
+            f"{self.API_URL}/repos/{owner}/{repository_name}/events",
             authorization_token,
             per_page,
             page_num
