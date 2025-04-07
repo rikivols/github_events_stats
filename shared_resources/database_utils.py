@@ -25,7 +25,10 @@ def postgre_session(func: Callable[..., any]) -> Callable[..., any]:
 
         with sessionmaker(bind=engine, autoflush=False, autocommit=False)() as session:
             try:
-                response = func(*args, session=session, **kwargs)
+                if "session" in kwargs:
+                    response = func(*args, **kwargs)
+                else:
+                    response = func(*args, session=session, **kwargs)
                 return response
             except Exception:
                 session.rollback()

@@ -1,4 +1,3 @@
-
 import time
 import logging
 import traceback
@@ -23,7 +22,11 @@ GithubEvent.metadata.create_all(db_engine)
 github_event_wrapper = GithubEventWrapper(config=config, db_engine=db_engine)
 
 github_client = GithubClient(config=config)
-github_scraper = GithubScraper(config=config, github_client=github_client, github_event_wrapper=github_event_wrapper)
+github_scraper = GithubScraper(
+    config=config,
+    github_client=github_client,
+    github_event_wrapper=github_event_wrapper,
+)
 
 
 if __name__ == "__main__":
@@ -35,13 +38,20 @@ if __name__ == "__main__":
 
         try:
             github_events = github_scraper.scrape_events()
-            logging.info(f"Scraped {len(github_events)} events.")
-            inserted_events = github_event_wrapper.insert_multiple_events(github_events=github_events)
+            logging.info(f"Scraped {len(github_events)} new events.")
+            inserted_events = github_event_wrapper.insert_multiple_events(
+                github_events=github_events
+            )
             logging.info(f"Inserted {len(inserted_events)} new events.")
+            deleted_count = github_event_wrapper.delete_expired_events()
+            logging.info(f"Deleted {deleted_count} old events.")
+
         except KeyboardInterrupt:
             break
         except Exception as e:
-            logging.error(f"There was an error in the main loop, ERROR: {e}, traceback: {traceback.format_exc()}")
+            logging.error(
+                f"There was an error in the main loop, ERROR: {e}, traceback: {traceback.format_exc()}"
+            )
 
         loop_took = time_response(loop_start)
 

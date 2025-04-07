@@ -20,6 +20,10 @@ def convert_github_datetime(datetime_input: str) -> datetime.datetime:
     return input_time.replace(tzinfo=datetime.timezone.utc)
 
 
+def convert_to_github_datetime(datetime_input: datetime.datetime) -> str:
+    return datetime_input.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
 def set_logger(config: Config):
     logging_level_map = {
         "debug": logging.DEBUG,

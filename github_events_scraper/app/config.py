@@ -1,4 +1,3 @@
-
 from typing import get_type_hints
 from os import environ as env
 import ast
@@ -31,7 +30,17 @@ class Config:
     # Logging
     LOGGING_LEVEL: str = "warning"
 
+    _instance = None
+
+    # making it a singleton
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
     def __init__(self):
+        if getattr(self, "_initialized", False):
+            return
         load_dotenv()
         for field in self.__annotations__:
             if not field.isupper():

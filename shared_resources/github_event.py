@@ -7,7 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 class GithubEvent(Base):
-    __tablename__ = os.getenv("DATABASE_NAME")
+    __tablename__ = os.getenv("DATABASE_TABLE_NAME")
 
     id = Column(String(50), primary_key=True, unique=True)
     type = Column(String(255))
