@@ -104,14 +104,14 @@ ok_response_example = {
 }
 
 response_structure = """
-"**Structure of response:**\n"
-        "- `last_refresh`: Timestamp of last stats update (UTC, ISO format)\n"
-        "- `repositories`: A dictionary keyed by repository name (e.g. `owner/repo`), each containing:\n"
-        "  - `all_actions`: Stats across all event types\n"
-        "  - `event_type`: Dictionary of stats grouped by event type (e.g. `PushEvent`, `WatchEvent`, etc.)\n\n"
-        "**Each stat entry includes:**\n"
-        "- `consecutive_events_average_s`: Average time (in seconds) between consecutive events of that type\n"
-        "- `total_events`: Total number of events used to compute the average"
+**Structure of response:**\n
+    - `last_refresh`: Timestamp of last stats update (UTC, ISO format)\n
+    - `repositories`: A dictionary keyed by repository name (e.g. `owner/repo`), each containing:\n
+        - `all_actions`: Stats across all event types\n
+        - `event_type`: Dictionary of stats grouped by event type (e.g. `PushEvent`, `WatchEvent`, etc.)\n\n
+        Each stat entry includes:\n
+            - `consecutive_events_average_s`: Average time (in seconds) between consecutive events of that type\n
+            - `total_events`: Total number of events used to compute the average
 """
 
 

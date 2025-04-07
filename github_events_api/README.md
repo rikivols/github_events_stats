@@ -1,5 +1,5 @@
 # Github events api
-This app fetches github events from database (Postgre). Aggregates these datas and makes stats
+This app fetches Github events from database (Postgre). It aggregates these data and makes stats
 available through an API endpoint `/github_events/all/consecutive_stats`.
 
 The stats contain the average time between consecutive events that are grouped by repository and event type.
@@ -7,16 +7,21 @@ You can also find stats for all event types together there.
 
 The stats are from the last 500 events or 7 days (configurable), for which condition is met first.
 
-This app uses fastapi for providing endpoint.
+This app uses Fastapi for providing endpoint.
 
 ## Endpoints
-* `/github_events/all/consecutive_stats` - get events for all configured repos in GITHUB_REPOSITORIES
+* `/github_events/all/consecutive_stats` - get events for all the configured repos in GITHUB_REPOSITORIES
 * `/github_events/repo/{owner}/{repo_name}/consecutive_stats` - get events for given repository
 * `/health` - returns last time the database was fetched
 You can find documentation for the endpoint in 
 * `/docs` endpoint - Swagger UI, interactive docs.
 * `/redoc` endpoint - ReDoc UI, minimalistic docs.
 * `/openapi.json` endpoint - OpenAPI schema.
+
+The host will be `http://localhost:8000` if you used default config.
+
+The Github API endpoint limits how many pages of events you can see, so often you won't get all the events in
+the past 7 days at start.
 
 ## Configuration
 You have a `.env.example` file that you're supposed to copy to `.env` file and fill with your own values.
